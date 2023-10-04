@@ -30,6 +30,8 @@ u {
 
 h3 {
   font-size: 30px;
+  padding-top: 0%;
+  padding-bottom: 0%;
 }
 
 h4 {
@@ -168,6 +170,7 @@ footer {
   text-align: center;
   background-color: rgb(0,0,0);
   color: white;
+  height: 80px;
 }
 
 column.a {
