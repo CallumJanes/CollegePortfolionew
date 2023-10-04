@@ -3,6 +3,17 @@ body {
     padding-bottom: 1cm;
 }
 
+.ab {
+  color: rgb(0, 0, 0);
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+a {
+  color: rgb(0, 0, 0);
+  font-size: 30px;
+}
+
 h1 {
   color: white;
   padding-bottom: 0px;
@@ -10,6 +21,15 @@ h1 {
 
 h2 {
   color: rgb(0, 0, 0);
+}
+
+u {
+  color: white;
+  padding-top: 10px;
+}
+
+h3 {
+  font-size: 30px;
 }
 
 h4 {
@@ -39,6 +59,7 @@ ul {
 button {
   color: white;
   background-color: black;
+  font-size: 25px;
 }
 
 /* Add a black background color to the top navigation */
