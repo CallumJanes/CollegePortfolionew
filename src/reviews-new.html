@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="/style.css"/>
+
 <head>
     <title>Callum Janes Portfolio</title>
     <link rel="icon" type="image/x-icon" href="/img/portfolio.ico">
     <div class="topnav">
-        <a class="active" href=/index.html>Home</a>
+        <a href=/index.html>Home</a>
         <div class="dropdown">
             <button class="dropbtn">My Units
               <i class="fa fa-caret-down"></i>
@@ -30,17 +31,44 @@
               <a href="/comingsoon.html">Factory Tycoon</a>
               <a href="/comingsoon.html">SDV</a>
               <a href="/src/personalprojects/DC.html">Home Network</a>
+              
             </div>
           </div>
-        <a href=/src/about.html>Units</a> 
+        <a href=/src/about.html>Units</a>
         <a href=/src/reviews.html>Reviews</a> 
     </div>
 </head>
 
 <body>
-    <h4>Coming Soon!</h4>
+  <form action="mailto:all@callinbox.aleeas.com"
+  method="POST"
+  enctype="multipart/form-data"
+  name="EmailForm">
+  <label for="fname">Name:</label>
+  <br>
+  <input type="text" id="fname" name="fname"><br><br>
+  <label for="rname">Review:</label>
+  <br>
+  <textarea id="w3review" name="w3review" rows="4" cols="50">
+  </textarea>
+  <br><br>
+  <fieldset>
+  <legend>Ratings:</legend>
+  <input type="radio" id="html" name="fav_language" value="HTML">
+  <label for="html">1 Star</label><br>
+  <input type="radio" id="css" name="fav_language" value="CSS">
+  <label for="css">2 Stars</label><br>
+  <input type="radio" id="javascript" name="fav_language" value="JavaScript">
+  <label for="javascript">3 Stars</label>
+  <br>
+  <input type="radio" id="4s" name="fav_language" value="4s">
+  <label for="4s">4 Stars</label>
+  </fieldset>
+  <br> <br>
+  <input type="submit" value="Submit Review">
+  </form>
 </body>
 
 <footer>
-    <h3>© Callum Janes 2023</h3>
+  <h3>© Callum Janes 2023</h3>
 </footer>
