@@ -40,30 +40,57 @@
 </head>
 
 <body>
-  <form action="/api/submit_review" method="post">
-  <label for="fname">Name:</label>
-  <br>
-  <input type="text" id="fname" name="fname"><br><br>
-  <label for="rname">Review:</label>
-  <br>
-  <textarea id="w3review" name="w3review" rows="4" cols="50">
-  </textarea>
-  <br><br>
-  <fieldset>
-  <legend>Ratings:</legend>
-  <input type="radio" id="html" name="fav_language" value="HTML">
-  <label for="html">1 Star</label><br>
-  <input type="radio" id="css" name="fav_language" value="CSS">
-  <label for="css">2 Stars</label><br>
-  <input type="radio" id="javascript" name="fav_language" value="JavaScript">
-  <label for="javascript">3 Stars</label>
-  <br>
-  <input type="radio" id="4s" name="fav_language" value="4s">
-  <label for="4s">4 Stars</label>
-  </fieldset>
-  <br> <br>
-  <input type="submit" value="Submit Review">
+  <form id="reviewForm">
+    <label for="fname">Name:</label>
+    <br>
+    <input type="text" id="fname" name="fname"><br><br>
+
+    <label for="review">Review:</label>
+    <br>
+    <textarea id="review" name="review" rows="4" cols="50"></textarea><br><br>
+
+    <fieldset>
+      <legend>Ratings:</legend>
+      <input type="radio" id="1star" name="rating" value="1">
+      <label for="1star">1 Star</label><br>
+      <input type="radio" id="2stars" name="rating" value="2">
+      <label for="2stars">2 Stars</label><br>
+      <input type="radio" id="3stars" name="rating" value="3">
+      <label for="3stars">3 Stars</label><br>
+      <input type="radio" id="4stars" name="rating" value="4">
+      <label for="4stars">4 Stars</label><br>
+    </fieldset>
+
+    <br><br>
+    <input type="submit" value="Submit Review">
   </form>
+
+  <script>
+    document.querySelector('#reviewForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(e.target);
+      const data = {
+          name: formData.get("fname"),
+          review: formData.get("review"),
+          rating: formData.get("rating")
+      };
+
+      const response = await fetch('/api/submit_review', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+          window.location.href = '/src/reviewcomplete.html';
+      } else {
+          alert('There was an error submitting your review. Please try again.');
+      }
+    });
+  </script>
 </body>
 
 <footer>

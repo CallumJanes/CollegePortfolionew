@@ -1,11 +1,10 @@
-const { MongoClient } = require('mongodb');
+const MongoClient = require('mongodb').MongoClient;
+
+const client = new MongoClient(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
 module.exports = async (req, res) => {
-  const client = await MongoClient.connect(process.env.MONGODB_URI);
-  const db = client.db('reviews_db');
-  const reviewsCollection = db.collection('reviews');
+    const db = client.db("reviews");
+    const reviews = await db.collection("entries").find({ approved: true }).toArray();
 
-  const reviews = await reviewsCollection.find({ status: 'approved' }).toArray();
-
-  res.status(200).json(reviews);
+    res.status(200).json(reviews);
 };

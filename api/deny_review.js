@@ -1,16 +1,14 @@
-const { MongoClient } = require('mongodb');
+const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId;
+
+const client = new MongoClient(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
 module.exports = async (req, res) => {
-  const { id } = req.query;
-  if (!id) {
-    return res.status(400).send('ID is required');
-  }
+    const { id } = req.query;
 
-  const client = await MongoClient.connect(process.env.MONGODB_URI);
-  const db = client.db('reviews_db');
-  const reviewsCollection = db.collection('reviews');
+    // Update the review in MongoDB
+    const db = client.db("reviews");
+    await db.collection("entries").updateOne({ _id: ObjectId(id) }, { $set: { approved: false } });
 
-  await reviewsCollection.deleteOne({ _id: new MongoClient.ObjectID(id) });
-
-  res.status(200).send('Review denied successfully.');
+    res.status(200).send('Review denied.');
 };

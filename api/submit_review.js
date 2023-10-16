@@ -1,43 +1,53 @@
+const MongoClient = require('mongodb').MongoClient;
 const nodemailer = require('nodemailer');
 
-module.exports = async (req, res) => {
-    const { fname, w3review, fav_language } = req.body;
+const uri = process.env.MONGO_URL;
 
-    if (!fname || !w3review || !fav_language) {
-        res.status(400).send('All fields are required.');
-        return;
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+module.exports = async (req, res) => {
+    if (req.method !== 'POST') {
+        return res.status(405).end();
     }
 
-    // Setup nodemailer transporter using Gmail SMTP
-    let transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.EMAIL,
-            pass: process.env.EMAIL_PASS
-        }
-    });
+    try {
+        await client.connect();
 
-    const mailContent = `
-    New Review Submitted:
+        const { name, review, rating } = req.body;
 
-    Name: ${fname}
-    Review: ${w3review}
-    Rating: ${fav_language}
-    `;
+        const reviewEntry = {
+            name: name,
+            review: review,
+            rating: rating,
+            approved: false
+        };
 
-    let mailOptions = {
-        from: process.env.EMAIL,
-        to: 'all@callinbox.aleeas.com',
-        subject: 'New Review Submission',
-        text: mailContent
-    };
+        const db = client.db("your_database_name");
+        const result = await db.collection("reviews").insertOne(reviewEntry);
 
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.log(error);
-            res.status(500).send('Error sending email.');
-        } else {
-            res.status(200).send('Review submitted for approval.');
-        }
-    });
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                type: 'OAuth2',
+                user: process.env.EMAIL,
+                clientId: process.env.CLIENT_ID,
+                clientSecret: process.env.CLIENT_SECRET,
+                refreshToken: process.env.REFRESH_TOKEN
+            }
+        });
+
+        const mailOptions = {
+            from: process.env.EMAIL,
+            to: 'your_approval_email@example.com',
+            subject: 'Review Approval Needed',
+            text: `Name: ${name}\nReview: ${review}\nRating: ${rating}\n\nApprove: [Your_Link_for_Approval]\nDeny: [Your_Link_for_Denial]`
+        };
+
+        await transporter.sendMail(mailOptions);
+        res.status(200).send('Review submitted for approval.');
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error processing your request.');
+    }
 };
