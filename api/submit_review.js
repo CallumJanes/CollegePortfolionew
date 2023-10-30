@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
 
         const mailOptions = {
             from: process.env.EMAIL,
-            to: 'your_approval_email@example.com',
+            to: 'reviews@callinbox.aleeas.com',
             subject: 'Review Approval Needed',
             text: `Name: ${name}\nReview: ${review}\nRating: ${rating}\n\nApprove: [Your_Link_for_Approval]\nDeny: [Your_Link_for_Denial]`
         };
