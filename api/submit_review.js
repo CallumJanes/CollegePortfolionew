@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
             name: name,
             review: review,
             rating: rating,
-            approved: true
+            approved: false,
         };
 
         const db = client.db("your_database_name");
